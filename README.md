@@ -18,7 +18,12 @@ source filters in [OBS Studio](https://obsproject.com) through a remote
 Sneak Preview
 -------------
 
+### OBS Crop Control in a Browser
+
 ![Screenshot 1](screenshot-1.png)
+
+### OBS Crop Control in Source Dock of OBS Studio
+
 ![Screenshot 2](screenshot-2.png)
 
 Use Case
