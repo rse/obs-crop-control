@@ -27,28 +27,34 @@ Use Case
 The particular, original use-case for this application is the following:
 
 - **High-Resolution Camera & Green-Screen**:
-  You are using a high-resolution (4K, 3840x2160px) camera on front of a physical green-screen
-  and you replace the green-green with the [OBS Studio](https://obsproject.com) Chroma-Key
-  source filter. Behind your camera is a background image or video media.
+  You are using a high-resolution (4K, 3840x2160px) camera in front of
+  a physical green-screen and you replace the green-screen with the
+  [OBS Studio](https://obsproject.com) *Chroma-Key* source filter. In
+  OBS Studio, behind your camera, you are using an arbitrary background
+  image or video media (visible through the alpha channel created by the
+  *Chroma-Key* filter).
 
 - **Non-PTZ Camera Functionality**:
-  Your camera is a non-PTZ camera or you at least cannot use the PTZ functionality
-  of your camera because of the green-screen (different angles and zoom-levels would
-  require the background to adjust accordingly.
+  Your camera is a non-PTZ (Pan-Tilt-Zoom) camera or you at least cannot
+  use the available PTZ functionality of your camera because of the
+  green-screen (different angles and zoom-levels would require the
+  background to adjust simultanously).
 
 - **Simulated Dynamics & Lower-Resolution Cameras**:
-  You want to still somewhat simulate multiple camera angles or
-  zooms by cropping various Full-HD (1920x1080px) areas out of your
-  4K (3840x2160px) camera and treat those as some sort of "virtual
-  cameras".
+  You want to still somewhat simulate multiple camera angles or zooms
+  by just cropping various Full-HD (1920x1080px) areas out of your 4K
+  (3840x2160px) camera video with the help of the OBS Studio *Crop/Pad*
+  filter. You then treat those areas as some sort of "virtual cameras".
+  In order to dynamically and interactively change the *Crop/Pad*
+  position and size parameters you use this control application.
 
 Setup
 -----
 
 The particular, original setup is the following:
 
-- You are producing your stream or recording with
-  [OBS Studio](https://obsproject.com) as your free video production software.
+- You are producing your live-event with
+  [OBS Studio](https://obsproject.com) as your free video streaming software.
 
 - You have the [OBS WebSockets](https://github.com/obsproject/obs-websocket),
   [OBS Source Dock](https://github.com/exeldro/obs-source-dock) and
@@ -56,26 +62,41 @@ The particular, original setup is the following:
   installed and activated in [OBS Studio](https://obsproject.com).
 
 - You have [OBS Studio](https://obsproject.com) configured for Full-HD
-  (1920x1080px) video (see *Settings* &rarr; *Video* &rarr; *Base (Canvas) Resolution*).
+  (1920x1080px) video output (see *Settings* &rarr; *Video* &rarr; *Base (Canvas) Resolution*).
 
 - You have a scene collection in [OBS Studio](https://obsproject.com) configured,
-  which contains the following additional scenes for a fictive camera named `CAM1`:
+  which contains at least the following additional scenes for your camera (here named `CAM-1`):
 
-  - scene `CAM1-Full`:
-      - source `CAM1-Full-FG` of type *Video Capture Device*
-          - attached to your 4K camera
-          - transform of *Stretch to Screen* applied
+  - scene `CAM-1-Full`:
+    (rationale: scene for "full/total" camera view)
+      - source `CAM-1-Full-FG` of type *Video Capture Device*:
+          - attached to your physical 4K camera device<br/>
+            (rationale: single source for physical camera)
           - filter *Chrome Key* applied
-      - source `CAM1-Full-BG` of type *Image*
-          - attached to your 4K background image
-          - transform of *Stretch to Screen* applied
-  - scene `CAM1-Zoom`:
-      - source `CAM1-Zoom-FG` of type *Source Mirror*
-          - attached to `CAM-1-Full-FG`
-          - filter *Crop/Pad* applied
-      - source `CAM1-Zoom-BG` of type *Source Mirror*
-          - attached to `CAM-1-Full-BG`
-          - filter *Crop/Pad* applied
+            (rationale: single filter for chroma-key)
+          - transform of *Stretch to Screen* applied<br/>
+            (rationale: provide "full/total" camera view in 1080p of `CAM-1-Full`)
+      - source `CAM-1-Full-BG` of type *Image*:
+          - attached to your 4K background image<br/>
+            (rationale: single filter for chroma-key)
+          - transform of *Stretch to Screen* applied<br/>
+            (rationale: provide "full/total" camera view in 1080p of `CAM-1-Full`)
+  - scene `CAM-1-Zoom`:
+    (rationale: scene for "zoomed" camera view)
+      - source `CAM-1-Zoom-FG` of type *Source Mirror*:
+          - attached to source `CAM-1-Full-FG`
+            (rationale: single source for physical camera, and chroma-key already applied once and in 4K)
+          - filter *Crop/Pad* applied<br/>
+            (rationale: the zoom to be applied and controlled)
+          - filter *Scaling/Aspect Ratio* applied (for 1920x1080px)
+            (rationale: ensure result is still Full-HD, even on arbitrary crop areas)
+      - source `CAM-1-Zoom-BG` of type *Source Mirror*:
+          - attached to source `CAM-1-Full-BG`<br/>
+            (rationale: single source for background)
+          - filter *Crop/Pad* applied<br/>
+            (rationale: the zoom to be applied and controlled)
+          - filter *Scaling/Aspect Ratio* applied (for 1920x1080px)<br/>
+            (rationale: ensure result is still Full-HD, even on arbitrary crop areas)
 
 - You use this SPA in a separate Browser or directly from within OBS Studio
   with the help of the awesome [Source Dock](https://github.com/exeldro/obs-source-dock) plugin.
