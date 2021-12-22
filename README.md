@@ -100,7 +100,7 @@ The particular, original setup is the following:
 
 - You use this SPA in a separate Browser or directly from within OBS Studio
   with the help of the awesome [Source Dock](https://github.com/exeldro/obs-source-dock) plugin.
-  The URL (show-casing all parameters) for the SPA is like the following:<br/>
+  The URL (show-casing all parameters) for the SPA is like the following (descriptions at the end of each line):<br/>
 
   `file://[...]/obs-crop-control.html` (path to SPA)<br/>
   `?websocket=localhost:4444` (endpoint of OBS WebSockets)<br/>
