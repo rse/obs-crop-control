@@ -15,6 +15,11 @@ controlling the position and/or size of one or more related *Crop/Pad*
 source filters in [OBS Studio](https://obsproject.com) through a remote
 [OBS WebSockets](https://github.com/obsproject/obs-websocket) connection.
 
+Sneak Preview
+-------------
+
+![Screenshot](screenshot.png)
+
 Use Case
 --------
 
