@@ -109,7 +109,10 @@ The particular, original setup is the following:
   `&canvas=3840x2160` (size of original camera)<br/>
   `&preview=CAM-1-Full:10` (how to retrieve the original camera view and its FPS)<br/>
   `&sources=CAM-1-Zoom-FG,CAM-1-Zoom-BG` (the sources of the *Crop/Pad* filters)<br/>
-  `&define=0:0+0/3860x2160,1:0+540/1920x1080,2:960+540/1920x1080,3:1920+540/1920x1080` (pre-defined crop areas)
+  `&define=0:0+0/3860x2160,` (pre-defined total 4K area)<br/>
+  `1:0+540/1920x1080,` (pre-defined Full-HD area middle/left)<br/>
+  `2:960+540/1920x1080,` (pre-defined Full-HD area middle/center)<br/>
+  `3:1920+540/1920x1080` (pre-defined Full-HD area middle/right)
 
 License
 -------
