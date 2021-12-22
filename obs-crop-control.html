@@ -203,7 +203,7 @@
         </div>
     </body>
     <script type="text/javascript">
-        Vue.createApp({
+        const app = {
             data () {
                 return {
                     obs:               null,
@@ -632,6 +632,7 @@
                     })
                 }
             }
-        }).mount("body")
+        }
+        Vue.createApp(app).mount("body")
     </script>
 </html>
