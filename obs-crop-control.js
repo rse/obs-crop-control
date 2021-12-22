@@ -8,7 +8,6 @@ const app = {
     data () {
         return {
             obs:               null,
-                               
             canvasW:           0,
             canvasH:           0,
             canvasR:           0,
@@ -19,34 +18,27 @@ const app = {
             cropY:             0,
             cropW:             0,
             cropH:             0,
-
             duration:          1000,
             fps:               30,
-
             previewImg:        "",
             previewShow:       false,
-                           
             dispViewportW:     0, 
             dispViewportH:     0, 
             dispScale:         0,
             dispCanvasW:       0,
             dispCanvasH:       0,
-
             dispCropCurrX:     0,
             dispCropCurrY:     0,
             dispCropCurrW:     0,
             dispCropCurrH:     0,
-
             dispCropNextX:     0,
             dispCropNextY:     0,
             dispCropNextW:     0,
             dispCropNextH:     0,
-
             dispDragPointerX:  0,
             dispDragPointerY:  0,
-
             dragging:          false,
-            progressing:       false,
+            progressing:       false
         }
     },
     async mounted () {
