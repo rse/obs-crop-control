@@ -328,7 +328,7 @@ const app = {
                     crop.Y = this.cropY
                     crop.W = this.cropW
                     crop.H = this.cropH
-                    this.setCrop(source, crop)
+                    this.setCrop(source, "", crop)
                 }
             })
             this.progressing = false
@@ -357,16 +357,13 @@ const app = {
 
         /*  listen to crop settings change of OBS Studio source  */
         async onCropChange (sourceName, onChange) {
-            const list = await this.obs.send("GetSourceFilters", { sourceName: sourceName })
-            const filter = list.filters.find((filter) => filter.type === "crop_filter")
-            if (filter === undefined)
-                throw new Error(`no Crop/Pad filter found on source "${sourceName}"`)
+            const filterName = await this.getFilterNameByType(sourceName, "crop_filter")
             let ctx = {}
-            ctx.crop = this.getCrop(sourceName)
+            ctx.crop = this.getCrop(sourceName, filterName)
             ctx.timer = setInterval(async () => {
                 if (this.progressing)
                     return
-                const crop = await this.getCrop(sourceName)
+                const crop = await this.getCrop(sourceName, filterName)
                 if (crop.X === ctx.crop.X &&
                     crop.Y === ctx.crop.Y &&
                     crop.W === ctx.crop.W &&
@@ -387,14 +384,21 @@ const app = {
         },
 
         /*  get crop settings of OBS Studio source  */
-        async getCrop (sourceName) {
+        async getFilterNameByType (sourceName, filterType) {
             const list = await this.obs.send("GetSourceFilters", { sourceName: sourceName })
-            const filter = list.filters.find((filter) => filter.type === "crop_filter")
+            const filter = list.filters.find((filter) => filter.type === filterType)
             if (filter === undefined)
-                throw new Error(`no Crop/Pad filter found on source "${sourceName}"`)
+                throw new Error(`no such filter of type "${filterType}" found on source "${sourceName}"`)
+            return filter.name
+        },
+
+        /*  get crop settings of OBS Studio source  */
+        async getCrop (sourceName, filterName = "") {
+            if (filterName === "")
+                filterName = await this.getFilterNameByType(sourceName, "crop_filter")
             const info = await this.obs.send("GetSourceFilterInfo", {
                 sourceName: sourceName,
-                filterName: filter.name
+                filterName: filterName
             })
             return {
                 X: info.settings.left,
@@ -405,14 +409,12 @@ const app = {
         },
 
         /*  set crop settings of OBS Studio source  */
-        async setCrop (sourceName, crop) {
-            const list = await this.obs.send("GetSourceFilters", { sourceName: sourceName })
-            const filter = list.filters.find((filter) => filter.type === "crop_filter")
-            if (filter === undefined)
-                throw new Error(`no Crop/Pad filter found on source "${sourceName}"`)
+        async setCrop (sourceName, filterName = "", crop) {
+            if (filterName === "")
+                filterName = await this.getFilterNameByType(sourceName, "crop_filter")
             const info = await this.obs.send("GetSourceFilterInfo", {
                 sourceName: sourceName,
-                filterName: filter.name
+                filterName: filterName
             })
             info.settings.left = crop.X
             info.settings.top  = crop.Y
@@ -420,7 +422,7 @@ const app = {
             info.settings.cy   = crop.H
             await this.obs.send("SetSourceFilterSettings", {
                 sourceName: sourceName,
-                filterName: filter.name,
+                filterName: filterName,
                 filterSettings: info.settings
             })
         }
