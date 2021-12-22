@@ -13,7 +13,7 @@ This is a small HTML5 Single-Page-Application
 [OBS Studio](https://obsproject.com), for interactively
 controlling the position and/or size of one or more related *Crop/Pad*
 source filters in [OBS Studio](https://obsproject.com) through a remote
-[OBS WebSockets](https://github.com/obsproject/obs-websocket) connection.
+[OBS WebSocket](https://github.com/obsproject/obs-websocket) connection.
 
 Sneak Preview
 -------------
@@ -61,7 +61,7 @@ The particular, original setup is the following:
 - You are producing your live-event with
   [OBS Studio](https://obsproject.com) as your free video streaming software.
 
-- You have the [OBS WebSockets](https://github.com/obsproject/obs-websocket),
+- You have the [OBS WebSocket](https://github.com/obsproject/obs-websocket),
   [OBS Source Dock](https://github.com/exeldro/obs-source-dock) and
   [StreamFX](https://github.com/Xaymar/obs-StreamFX) extension plugins
   installed and activated in [OBS Studio](https://obsproject.com).
@@ -108,8 +108,8 @@ The particular, original setup is the following:
   The URL (show-casing all parameters) for the SPA is like the following (descriptions at the end of each line):<br/>
 
   `file://[...]/obs-crop-control.html` (path to SPA)<br/>
-  `?websocket=localhost:4444` (endpoint of OBS WebSockets)<br/>
-  `&password=XXX` (authentication for endpoint of OBS WebSockets)<br/>
+  `?websocket=localhost:4444` (endpoint of OBS WebSocket)<br/>
+  `&password=XXX` (authentication for endpoint of OBS WebSocket)<br/>
   `&title=CAM2` (title of the virtual camera)<br/>
   `&canvas=3840x2160` (size of original camera)<br/>
   `&preview=CAM2-Full:10` (how to retrieve the original camera view and its FPS)<br/>
