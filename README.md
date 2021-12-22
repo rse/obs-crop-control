@@ -18,7 +18,8 @@ source filters in [OBS Studio](https://obsproject.com) through a remote
 Sneak Preview
 -------------
 
-![Screenshot](screenshot.png)
+![Screenshot 1](screenshot-1.png)
+![Screenshot 2](screenshot-2.png)
 
 Use Case
 --------
