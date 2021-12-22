@@ -2,7 +2,7 @@
 OBS-Crop-Control
 ================
 
-**Remote Crop Filter Control for OBS Studio**
+**Remote Crop-Filter Control for OBS Studio**
 
 About
 -----
@@ -74,9 +74,11 @@ The particular, original setup is the following:
 - You use this SPA in a separate Browser or directly from within OBS Studio
   with the help of the awesome [Source Dock](https://github.com/exeldro/obs-source-dock) plugin.
   The URL for the SPA is like the following:<br/>
-  `file://[...]/index.html?title=CAM1&canvas=3840x2160&preview=CAM1-Full:10`<br/>
+
+  `file://[...]/index.html?[...]`<br/>
+  `title=CAM1&canvas=3840x2160&preview=CAM1-Full:10`<br/>
   `&sources=CAM1-Zoom-FG,CAM1-Zoom-BG&websocket=localhost:4444`<br/>
-  `&define=0:0+0/3860x2160,1:0+540/1920x1080,2:960+540/1920x1080,3:1920+540/1920x1080<br/>
+  `&define=0:0+0/3860x2160,1:0+540/1920x1080,2:960+540/1920x1080,3:1920+540/1920x1080`<br/>
 
 License
 -------
