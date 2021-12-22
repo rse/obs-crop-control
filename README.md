@@ -119,6 +119,16 @@ The particular, original setup is the following:
   `2:960+540/1920x1080,` (pre-defined Full-HD area middle/center)<br/>
   `3:1920+540/1920x1080` (pre-defined Full-HD area middle/right)
 
+Usage
+-----
+
+- Select a crop area with a mouse left click to pick it up.
+- Cancel the selection of a crop area with a mouse right click.
+- Change position of crop area with mouse movement.
+- Change size of crop area with mouse wheel.
+- Alternatively just press the keys of the pre-defined crop areas
+  to directly change selections according to pre-definition.
+
 License
 -------
 
