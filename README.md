@@ -70,33 +70,33 @@ The particular, original setup is the following:
   (1920x1080px) video output (see *Settings* &rarr; *Video* &rarr; *Base (Canvas) Resolution*).
 
 - You have a scene collection in [OBS Studio](https://obsproject.com) configured,
-  which contains at least the following additional scenes for your camera (here named `CAM-1`):
+  which contains at least the following additional scenes for your camera (here named `CAM2` as an example):
 
-  - scene `CAM-1-Full`:
+  - scene `CAM2-Full`:
     (rationale: scene for "full/total" camera view)
-      - source `CAM-1-Full-FG` of type *Video Capture Device*:
+      - source `CAM2-Full-FG` of type *Video Capture Device*:
           - attached to your physical 4K camera device<br/>
             (rationale: single source for physical camera)
           - filter *Chrome Key* applied
             (rationale: single filter for chroma-key)
           - transform of *Stretch to Screen* applied<br/>
-            (rationale: provide "full/total" camera view in 1080p of `CAM-1-Full`)
-      - source `CAM-1-Full-BG` of type *Image*:
+            (rationale: provide "full/total" camera view in 1080p of `CAM2-Full`)
+      - source `CAM2-Full-BG` of type *Image*:
           - attached to your 4K background image<br/>
             (rationale: single filter for chroma-key)
           - transform of *Stretch to Screen* applied<br/>
-            (rationale: provide "full/total" camera view in 1080p of `CAM-1-Full`)
-  - scene `CAM-1-Zoom`:
+            (rationale: provide "full/total" camera view in 1080p of `CAM2-Full`)
+  - scene `CAM2-Zoom`:
     (rationale: scene for "zoomed" camera view)
-      - source `CAM-1-Zoom-FG` of type *Source Mirror*:
-          - attached to source `CAM-1-Full-FG`
+      - source `CAM2-Zoom-FG` of type *Source Mirror*:
+          - attached to source `CAM2-Full-FG`
             (rationale: single source for physical camera, and chroma-key already applied once and in 4K)
           - filter *Crop/Pad* applied<br/>
             (rationale: the zoom to be applied and controlled)
           - filter *Scaling/Aspect Ratio* applied (for 1920x1080px)
             (rationale: ensure result is still Full-HD, even on arbitrary crop areas)
-      - source `CAM-1-Zoom-BG` of type *Source Mirror*:
-          - attached to source `CAM-1-Full-BG`<br/>
+      - source `CAM2-Zoom-BG` of type *Source Mirror*:
+          - attached to source `CAM2-Full-BG`<br/>
             (rationale: single source for background)
           - filter *Crop/Pad* applied<br/>
             (rationale: the zoom to be applied and controlled)
@@ -110,10 +110,10 @@ The particular, original setup is the following:
   `file://[...]/obs-crop-control.html` (path to SPA)<br/>
   `?websocket=localhost:4444` (endpoint of OBS WebSockets)<br/>
   `&password=XXX` (authentication for endpoint of OBS WebSockets)<br/>
-  `&title=CAM-1` (title of the virtual camera)<br/>
+  `&title=CAM2` (title of the virtual camera)<br/>
   `&canvas=3840x2160` (size of original camera)<br/>
-  `&preview=CAM-1-Full:10` (how to retrieve the original camera view and its FPS)<br/>
-  `&sources=CAM-1-Zoom-FG,CAM-1-Zoom-BG` (the sources of the *Crop/Pad* filters)<br/>
+  `&preview=CAM2-Full:10` (how to retrieve the original camera view and its FPS)<br/>
+  `&sources=CAM2-Zoom-FG,CAM2-Zoom-BG` (the sources of the *Crop/Pad* filters)<br/>
   `&define=0:0+0/3860x2160,` (pre-defined total 4K area)<br/>
   `1:0+540/1920x1080,` (pre-defined Full-HD area middle/left)<br/>
   `2:960+540/1920x1080,` (pre-defined Full-HD area middle/center)<br/>
