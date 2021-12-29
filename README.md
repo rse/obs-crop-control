@@ -7,16 +7,15 @@ OBS-Crop-Control
 About
 -----
 
-This is a small HTML5 Single-Page-Application
-(SPA), running inside a Browser or directly inside a
-[Source Dock](https://github.com/exeldro/obs-source-dock) of
-[OBS Studio](https://obsproject.com), for interactively
-controlling the position and/or size of one or more related *Crop/Pad*
-source filters in [OBS Studio](https://obsproject.com) through a remote
+This is a small HTML5 Single-Page-Application (SPA), running inside
+a Browser or directly inside a *Custom Browser Dock* of
+[OBS Studio](https://obsproject.com), for interactively controlling
+the position and/or size of one or more related *Crop/Pad* source
+filters in [OBS Studio](https://obsproject.com) through a remote
 [OBS WebSocket](https://github.com/obsproject/obs-websocket) connection.
 The transition from the old to the new crop position and/or size is
-performed over a configured time duration and with a cubic in/out easing, in
-order to somewhat simulate the behaviour of a PTZ camera.
+performed over a configured time duration and with a cubic in/out
+easing, in order to somewhat simulate the behaviour of a PTZ camera.
 
 Sneak Preview
 -------------
@@ -25,7 +24,7 @@ Sneak Preview
 
 ![Screenshot 1](screenshot-1.png)
 
-### OBS Crop Control in Source Dock of OBS Studio
+### OBS Crop Control in Custom Browser Dock of OBS Studio
 
 ![Screenshot 2](screenshot-2.png)
 
@@ -65,8 +64,7 @@ The particular, original setup is the following:
   [OBS Studio](https://obsproject.com) as your free video streaming software.
 
 - You have the [OBS WebSocket](https://github.com/obsproject/obs-websocket),
-  [OBS Source Dock](https://github.com/exeldro/obs-source-dock) and
-  [StreamFX](https://github.com/Xaymar/obs-StreamFX) extension plugins
+  and [StreamFX](https://github.com/Xaymar/obs-StreamFX) extension plugins
   installed and activated in [OBS Studio](https://obsproject.com).
 
 - You have [OBS Studio](https://obsproject.com) configured for Full-HD
@@ -107,8 +105,9 @@ The particular, original setup is the following:
             (rationale: ensure result is still Full-HD, even on arbitrary crop areas)
 
 - You use this SPA in a separate Browser or directly from within OBS Studio
-  with the help of the awesome [Source Dock](https://github.com/exeldro/obs-source-dock) plugin.
-  The URL (show-casing all parameters) for the SPA is like the following (descriptions at the end of each line):<br/>
+  with the help of the Custom Browser Dock functionality. The URL
+  (show-casing all parameters) for the SPA is like the following
+  (descriptions at the end of each line):<br/>
 
   `file://[...]/obs-crop-control.html` (path to SPA)<br/>
   `?websocket=localhost:4444` (endpoint of OBS WebSocket)<br/>
