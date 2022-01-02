@@ -31,6 +31,10 @@ Sneak Preview
 
 ![Screenshot 2](screenshot-2.png)
 
+### OBS Crop Control in OBS Source Dock of OBS Studio
+
+![Screenshot 3](screenshot-3.png)
+
 Use Case
 --------
 
