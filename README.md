@@ -121,6 +121,7 @@ The particular, original setup is the following:
   `?websocket=localhost:4444` (endpoint of OBS WebSocket)<br/>
   `&password=XXX` (authentication for endpoint of OBS WebSocket)<br/>
   `&title=CAM2` (title of the virtual camera)<br/>
+  `&transparent=true` (make background transparent)<br/>
   `&canvas=3840x2160` (size of original camera)<br/>
   `&preview=CAM2-Full:10` (how to retrieve the original camera view and its FPS)<br/>
   `&sources=CAM2-Zoom-FG,CAM2-Zoom-BG` (the sources of the *Crop/Pad* filters)<br/>

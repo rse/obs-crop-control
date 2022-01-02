@@ -21,7 +21,7 @@
         <link href="./obs-crop-control.css" rel="stylesheet">
     </head>
     <body>
-        <div class="canvas" ref="canvas"
+        <div v-bind:class="{ transparent: transparent }" class="canvas" ref="canvas"
             v-on:click="mouseClickLeft"
             v-on:contextmenu.prevent="mouseClickRight"
             v-on:mouseMove="mouseMove"

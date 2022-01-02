@@ -8,6 +8,7 @@ const app = {
     data () {
         return {
             obs:               null,
+            transparent:       false,
             canvasW:           0,
             canvasH:           0,
             canvasR:           0,
@@ -71,6 +72,8 @@ const app = {
             this.duration = parseInt(params.duration)
         if (params.fps !== undefined)
             this.fps = parseInt(params.fps)
+        if (params.transparent !== undefined)
+            this.transparent = (params.transparent === "true")
         if (params.define !== undefined) {
             this.defines = params.define.split(/,/)
             for (let i = 0; i < this.defines.length; i++) {
