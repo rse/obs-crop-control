@@ -47,6 +47,12 @@ body {
     margin-left: 1vw;
     text-align: center;
 }
+.canvas .toolbar .define.next {
+    background-color: #cc0000d0;
+}
+.canvas .toolbar .define.curr {
+    background-color: #00cc00d0;
+}
 .canvas .toolbar .define:hover {
     background-color: #cc0000d0;
 }

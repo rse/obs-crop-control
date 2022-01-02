@@ -83,7 +83,8 @@ const app = {
                 this.defines[i] = {
                     D: m[1],
                     X: parseInt(m[2]), Y: parseInt(m[3]),
-                    W: parseInt(m[4]), H: parseInt(m[5])
+                    W: parseInt(m[4]), H: parseInt(m[5]),
+                    C: false, N: false
                 }
             }
         }
@@ -171,6 +172,9 @@ const app = {
                 this.previewImg = ss.img
             }, frequency)
         }
+
+        /*  initially update define states  */
+        this.updateDefineStates(null)
     },
     methods: {
         /*  callback for mouse left-click  */
@@ -335,7 +339,11 @@ const app = {
                     crop.H = this.cropH
                     this.setCrop(source, "", crop)
                 }
+
+                /*  update define button states  */
+                this.updateDefineStates(cropNew)
             })
+            this.updateDefineStates(null)
             this.progressing = false
         },
 
@@ -358,6 +366,24 @@ const app = {
             this.dispCropNextW = define.W * this.dispScale
             this.dispCropNextH = define.H * this.dispScale
             await this.progress(cropOld, define)
+        },
+
+        /*  determine whether a pre-defined position and/or size is current and/or next one  */
+        async updateDefineStates (cropNew) {
+            for (const define of this.defines) {
+                define.C = (
+                    this.cropX === define.X &&
+                    this.cropY === define.Y &&
+                    this.cropW === define.W &&
+                    this.cropH === define.H
+                )
+                define.N = (cropNew !== null && (
+                    cropNew.X === define.X &&
+                    cropNew.Y === define.Y &&
+                    cropNew.W === define.W &&
+                    cropNew.H === define.H
+                ))
+            }
         },
 
         /*  listen to crop settings change of OBS Studio source  */

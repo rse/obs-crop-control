@@ -70,6 +70,7 @@
             </div>
             <div class="toolbar">
                 <div v-for="define of defines" v-on:click="setDefine(define)" class="define"
+                    v-bind:class="{ curr: define.C, next: define.N }"
                 >{{ define.D }}</div>
                 <div v-if="previewEnabled" v-on:click="previewShow = !previewShow" class="button">
                     <span v-show="previewShow"><i class="fas fa-eye"></i></span>
