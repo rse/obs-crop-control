@@ -22,6 +22,7 @@ const app = {
             fps:               30,
             previewImg:        "",
             previewShow:       false,
+            previewEnabled:    false,
             dispViewportW:     0, 
             dispViewportH:     0, 
             dispScale:         0,
@@ -148,6 +149,7 @@ const app = {
 
         /*  support source preview  */
         if (params.preview) {
+            this.previewEnabled = true
             const m = params.preview.match(/^(.+):(\d+(?:\.\d+)?)$/)
             if (m === null)
                 throw new Error(`invalid preview specification "${params.preview}"`)

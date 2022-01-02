@@ -30,7 +30,12 @@
             v-bind:style="{
                 width:  dispCanvasW + 'px',
                 height: dispCanvasH + 'px'}">
-            <img v-bind:src="previewImg" ref="preview" class="preview" v-show="previewImg !== '' && previewShow">
+            <img
+                v-bind:src="previewImg"
+                ref="preview"
+                class="preview"
+                v-if="previewEnabled"
+                v-show="previewImg !== '' && previewShow">
             <div class="cropCurr" ref="cropCurr"
                 v-bind:class="{ dragging: dragging }"
                 v-bind:style="{
@@ -66,7 +71,7 @@
             <div class="toolbar">
                 <div v-for="define of defines" v-on:click="setDefine(define)" class="define"
                 >{{ define.D }}</div>
-                <div v-on:click="previewShow = !previewShow" class="button">
+                <div v-if="previewEnabled" v-on:click="previewShow = !previewShow" class="button">
                     <span v-show="previewShow"><i class="fas fa-eye"></i></span>
                     <span v-show="!previewShow"><i class="fas fa-eye-slash"></i></span>
                 </div>
