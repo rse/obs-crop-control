@@ -7,15 +7,18 @@ OBS-Crop-Control
 About
 -----
 
-This is a small HTML5 Single-Page-Application (SPA), running inside
-a Browser or directly inside a *Custom Browser Dock* of
-[OBS Studio](https://obsproject.com), for interactively controlling
-the position and/or size of one or more related *Crop/Pad* source
-filters in [OBS Studio](https://obsproject.com) through a remote
+This is a small HTML5 Single-Page-Application (SPA) for interactively
+controlling the position and/or size of one or more related *Crop/Pad*
+source filters in [OBS Studio](https://obsproject.com) through a remote
 [OBS WebSocket](https://github.com/obsproject/obs-websocket) connection.
 The transition from the old to the new crop position and/or size is
 performed over a configured time duration and with a cubic in/out
 easing, in order to somewhat simulate the behaviour of a PTZ camera.
+
+This SPA can be running inside a separate Browser, inside a *Custom
+Browser Dock* of [OBS Studio](https://obsproject.com), or even inside a
+[OBS Source Dock](https://github.com/exeldro/obs-source-dock) inside [OBS
+Studio](https://obsproject.com).
 
 Sneak Preview
 -------------
@@ -64,6 +67,7 @@ The particular, original setup is the following:
   [OBS Studio](https://obsproject.com) as your free video streaming software.
 
 - You have the [OBS WebSocket](https://github.com/obsproject/obs-websocket),
+  [OBS Source Dock](https://github.com/exeldro/obs-source-dock),
   and [StreamFX](https://github.com/Xaymar/obs-StreamFX) extension plugins
   installed and activated in [OBS Studio](https://obsproject.com).
 
@@ -75,6 +79,9 @@ The particular, original setup is the following:
 
   - scene `CAM2-Full`:
     (rationale: scene for "full/total" camera view)
+      - source `CAM2-Full-CC` of type *Browser Source*:
+          - loading the OBS Crop Control SPA according to the URL below<br/>
+            (rationale: running the SPA)
       - source `CAM2-Full-FG` of type *Video Capture Device*:
           - attached to your physical 4K camera device<br/>
             (rationale: single source for physical camera)
@@ -104,9 +111,10 @@ The particular, original setup is the following:
           - filter *Scaling/Aspect Ratio* applied (for 1920x1080px)<br/>
             (rationale: ensure result is still Full-HD, even on arbitrary crop areas)
 
-- You use this SPA in a separate Browser or directly from within OBS Studio
-  with the help of the Custom Browser Dock functionality. The URL
-  (show-casing all parameters) for the SPA is like the following
+- You use this SPA in a separate Browser, or directly from within OBS Studio
+  with the help of the *Custom Browser Dock* functionality,
+  or even better, inside a [OBS Source Dock](https://github.com/exeldro/obs-source-dock).
+  The URL (show-casing all parameters) for the SPA is like the following
   (descriptions at the end of each line):<br/>
 
   `file://[...]/obs-crop-control.html` (path to SPA)<br/>
@@ -120,6 +128,13 @@ The particular, original setup is the following:
   `1:0+540/1920x1080,` (pre-defined Full-HD area middle/left)<br/>
   `2:960+540/1920x1080,` (pre-defined Full-HD area middle/center)<br/>
   `3:1920+540/1920x1080` (pre-defined Full-HD area middle/right)
+
+  Notice: the `preview` functionality makes sense only for the case
+  this SPA is running inside a separate Browser or within a *Custom
+  Browser Dock* functionality. When running inside [OBS Source
+  Dock](https://github.com/exeldro/obs-source-dock) there is no need
+  to retrieve the preview into the SPA &mdash; instead just place the
+  preview into the same scene behind the SPA!
 
 Usage
 -----
