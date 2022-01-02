@@ -32,8 +32,8 @@ body {
 
 .canvas .toolbar {
     position: absolute;
-    bottom: 1vw;
-    right: 1vw;
+    bottom: 2vw;
+    right: 2vw;
     display: flex;
     flex-direction: row;
 }
