@@ -47,6 +47,9 @@ body {
     margin-left: 1vw;
     text-align: center;
 }
+.canvas .toolbar .define:hover {
+    background-color: #cc0000d0;
+}
 .canvas .toolbar .button {
     width: 6vw;
     padding: 0 2vw 0 2vw;
@@ -57,6 +60,9 @@ body {
     font-size: 5vw;
     margin-left: 1vw;
     text-align: center;
+}
+.canvas .toolbar .button:hover {
+    background-color: #cc0000d0;
 }
 
 .canvas .cropCurr {
