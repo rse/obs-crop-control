@@ -17,6 +17,7 @@ body {
     justify-content: center;
     align-items: center;
     user-select: none;
+    overflow: hidden;
 }
 
 .canvas {
@@ -25,6 +26,7 @@ body {
     align-items: center;
     position: relative;
     background-color: #222222;
+    overflow: hidden;
 }
 .canvas.transparent {
     background-color: transparent;
