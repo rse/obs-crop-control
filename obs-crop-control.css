@@ -50,13 +50,16 @@ body {
     text-align: center;
 }
 .canvas .toolbar .define.next {
-    background-color: #cc0000d0;
+    background-color: #0066bbd0;
 }
 .canvas .toolbar .define.curr {
-    background-color: #00cc00d0;
+    background-color: #ffb000d0;
+}
+.canvas .toolbar .define.curr.active {
+    background-color: #cc0000d0;
 }
 .canvas .toolbar .define:hover {
-    background-color: #cc0000d0;
+    background-color: #0066bbd0;
 }
 .canvas .toolbar .button {
     width: 6vw;
@@ -79,10 +82,10 @@ body {
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    border: 1vw solid #00cc00d0;
+    border: 1vw solid #ffb000d0;
 }
 .canvas .cropCurr .title {
-    background-color: #00cc00d0;
+    background-color: #ffb000d0;
     color: #ffffff;
     font-size: 4vw;
     font-weight: bold;
@@ -93,7 +96,7 @@ body {
     left: 0;
 }
 .canvas .cropCurr .info {
-    background-color: #00cc00d0;
+    background-color: #ffb000d0;
     color: #ffffff;
     font-size: 2vw;
     padding: 1vw 1vw 0 2vw;
@@ -101,6 +104,13 @@ body {
     position: absolute;
     bottom: 0;
     right: 0;
+}
+.canvas .cropCurr.active {
+    border: 1vw solid #cc0000d0;
+}
+.canvas .cropCurr.active .info,
+.canvas .cropCurr.active .title {
+    background-color: #cc0000d0;
 }
 
 .canvas .cropNext {
@@ -110,10 +120,10 @@ body {
     justify-content: top;
     align-items: center;
     box-sizing: border-box;
-    border: 1vw solid #cc0000d0;
+    border: 1vw solid #0066bbd0;
 }
 .canvas .cropNext .title {
-    background-color: #cc0000d0;
+    background-color: #0066bbd0;
     color: #ffffff;
     font-size: 4vw;
     font-weight: bold;
@@ -124,7 +134,7 @@ body {
     left: 0;
 }
 .canvas .cropNext .info {
-    background-color: #cc0000d0;
+    background-color: #0066bbd0;
     color: #ffffff;
     font-size: 2vw;
     padding: 1vw 1vw 0 2vw;
@@ -150,7 +160,7 @@ body {
     top: 2vw;
     left: 2vw;
     padding: 1vw 2vw 1vw 2vw;
-    background-color: #cc0000d0;
+    background-color: #0066bbd0;
     color: #ffffff;
     font-weight: bold;
     border-radius: 1vw;

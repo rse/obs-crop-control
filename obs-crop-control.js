@@ -8,6 +8,10 @@ const app = {
     data () {
         return {
             obs:               null,
+            obsStudioMode:     false,
+            obsScenePreview:   "",
+            obsSceneProgram:   "",
+            sourceActive:      false,
             transparent:       false,
             canvasW:           0,
             canvasH:           0,
@@ -175,6 +179,54 @@ const app = {
 
         /*  initially update define states  */
         this.updateDefineStates(null)
+
+        /*  determine OBS Studio mode  */
+        let result = await this.obs.send("GetStudioModeStatus")
+        this.obsStudioMode = result.studioMode
+        this.obs.on("StudioModeSwitched", (ev) => {
+            this.obsStudioMode = ev.newState
+            this.obsScenePreview = this.obsSceneProgram
+        })
+
+        /*  determine OBS Studio active scene (in preview or program)  */
+        if (this.obsStudioMode) {
+            result = await this.obs.send("GetCurrentScene")
+            this.obsSceneProgram = result.name
+            result = await this.obs.send("GetPreviewScene")
+            this.obsScenePreview = result.name
+        }
+        else {
+            result = await this.obs.send("GetCurrentScene")
+            this.obsSceneProgram = result.name
+            this.obsScenePreview = result.name
+        }
+        const updateActiveScene = async () => {
+            let sourceActive = false
+            for (const source of this.sources) {
+                let result = await this.obs.send("GetSourceActive", { sourceName: source })
+                if (result.sourceActive) {
+                    sourceActive = true
+                    break
+                }
+            }
+            this.sourceActive = sourceActive
+        }
+        updateActiveScene()
+        this.obs.on("SwitchScenes", (ev) => {
+            if (this.obsStudioMode)
+                this.obsSceneProgram = ev.sceneName
+            else {
+                this.obsScenePreview = ev.sceneName
+                this.obsSceneProgram = ev.sceneName
+            }
+            setTimeout(() => {
+                updateActiveScene()
+            }, 100)
+        })
+        this.obs.on("PreviewSceneChanged", async (ev) => {
+            if (this.obsStudioMode)
+                this.obsScenePreview = ev.sceneName
+        })
     },
     methods: {
         /*  callback for mouse left-click  */
