@@ -25,17 +25,13 @@ local function recall (control, define)
         return false
 	end
 
-    --  determine keyboard event
-    local k = obs.obs_key_from_name("OBS_KEY_" .. define)
-    local K = obs.obs_key_to_virtual_key(k)
-
     --  send keyboard event to source
     local event = obs.obs_key_event()
-    event.native_vkey      = K
+    event.native_vkey      = 0
     event.modifiers        = 0
-    event.native_scancode  = K
+    event.native_scancode  = 0
     event.native_modifiers = 0
-    event.text             = ""
+    event.text             = "" .. define
     obs.obs_source_send_key_click(controlSource, event, false)
     obs.obs_source_send_key_click(controlSource, event, true)
 
