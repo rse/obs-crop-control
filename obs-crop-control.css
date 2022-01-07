@@ -167,3 +167,14 @@ body {
     font-size: 3vw;
 }
 
+.canvas .debug {
+    position: absolute;
+    top: 2vw;
+    left: 2vw;
+    width: 50vw;
+    padding: 1vw 2vw 1vw 2vw;
+    background-color: #0066bbd0;
+    color: #ffffff;
+    font-size: 4vw;
+}
+

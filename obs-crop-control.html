@@ -77,6 +77,12 @@
                     <span v-show="!previewShow"><i class="fas fa-eye-slash"></i></span>
                 </div>
             </div>
+            <div class="debug" v-if="debug">
+                {{ obsStudioMode }} /
+                {{ obsScenePreview }} /
+                {{ obsSceneProgram }} /
+                {{ sourceActive }}
+            </div>
         </div>
     </body>
     <script type="text/javascript" src="./obs-crop-control.js"></script>

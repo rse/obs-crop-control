@@ -12,6 +12,7 @@ const app = {
             obsScenePreview:   "",
             obsSceneProgram:   "",
             sourceActive:      false,
+            debug:             false,
             transparent:       false,
             canvasW:           0,
             canvasH:           0,
@@ -76,6 +77,8 @@ const app = {
             this.duration = parseInt(params.duration)
         if (params.fps !== undefined)
             this.fps = parseInt(params.fps)
+        if (params.debug !== undefined)
+            this.debug = (params.debug === "true")
         if (params.transparent !== undefined)
             this.transparent = (params.transparent === "true")
         if (params.define !== undefined) {
