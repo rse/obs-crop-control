@@ -154,6 +154,6 @@ Usage
 License
 -------
 
-Copyright &copy; 2021 [Dr. Ralf S. Engelschall](http://engelschall.com/)<br/>
+Copyright &copy; 2021-2022 [Dr. Ralf S. Engelschall](http://engelschall.com/)<br/>
 Distributed under [GPL 3.0 license](https://spdx.org/licenses/GPL-3.0-only.html)
 
