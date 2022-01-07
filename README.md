@@ -11,9 +11,15 @@ This is a small HTML5 Single-Page-Application (SPA) for interactively
 controlling the position and/or size of one or more related *Crop/Pad*
 source filters in [OBS Studio](https://obsproject.com) through a remote
 [OBS WebSocket](https://github.com/obsproject/obs-websocket) connection.
+
 The transition from the old to the new crop position and/or size is
 performed over a configured time duration and with a cubic in/out
 easing, in order to somewhat simulate the behaviour of a PTZ camera.
+
+There can be also statically defined crop areas for quick access.
+Those defined crop areas can even be triggered by a companion [OBS
+Studio](https://obsproject.com) source filter in case the camera source
+becomes active (shown in the program).
 
 This SPA can be running inside a separate Browser, inside a *Custom
 Browser Dock* of [OBS Studio](https://obsproject.com), or even inside a
@@ -81,7 +87,7 @@ The particular, original setup is the following:
 - You have a scene collection in [OBS Studio](https://obsproject.com) configured,
   which contains at least the following additional scenes for your camera (here named `CAM2` as an example):
 
-  - scene `CAM2-Full`:
+  - scene `CAM2-Full`:<br/>
     (rationale: scene for "full/total" camera view)
       - source `CAM2-Full-CC` of type *Browser Source*:
           - loading the OBS Crop Control SPA according to the URL below<br/>
@@ -98,7 +104,7 @@ The particular, original setup is the following:
             (rationale: single filter for chroma-key)
           - transform of *Stretch to Screen* applied<br/>
             (rationale: provide "full/total" camera view in 1080p of `CAM2-Full`)
-  - scene `CAM2-Zoom`:
+  - scene `CAM2-Zoom`:<br/>
     (rationale: scene for "zoomed" camera view)
       - source `CAM2-Zoom-FG` of type *Source Mirror*:
           - attached to source `CAM2-Full-FG`
@@ -114,6 +120,15 @@ The particular, original setup is the following:
             (rationale: the zoom to be applied and controlled)
           - filter *Scaling/Aspect Ratio* applied (for 1920x1080px)<br/>
             (rationale: ensure result is still Full-HD, even on arbitrary crop areas)
+  - scene `Foo`:<br/>
+    (rationale: particular event scene based ont he "zoomed" camera view)
+      - source `Foo-CAM2` of type *Source Mirror*:
+          - attached to scene `CAM2-Zoom`
+            (rationale: single source for virtual camera)
+          - filter *Recall Crop Control Define* applied<br/>
+            (rationale: automatically trigger a particular zoom)
+              - parameter *Source Name of Control UI* set to `CAM2-Full-CC`<br/>
+                (rationale: automatically trigger a particular zoom)
 
 - You use this SPA in a separate Browser, or directly from within OBS Studio
   with the help of the *Custom Browser Dock* functionality,
