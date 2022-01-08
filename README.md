@@ -19,7 +19,7 @@ easing, in order to somewhat simulate the behaviour of a PTZ camera.
 There can be also statically defined crop areas for quick access.
 Those defined crop areas can even be triggered by a companion [OBS
 Studio](https://obsproject.com) source filter in case the camera source
-becomes active (shown in the program).
+becomes active in the PREVIEW or PROGRAM of OBS Studio.
 
 This SPA can be running inside a separate Browser, inside a *Custom
 Browser Dock* of [OBS Studio](https://obsproject.com), or even inside a
