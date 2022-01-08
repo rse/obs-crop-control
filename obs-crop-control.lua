@@ -133,9 +133,9 @@ info.get_properties = function (_filter)
         obs.obs_property_list_add_string(prop, "8", "8")
         obs.obs_property_list_add_string(prop, "9", "9")
     end
-    local define1 = obs.obs_properties_add_list(props, "define1", "Recall Define on Preview:",
+    local define1 = obs.obs_properties_add_list(props, "define1", "Recall Define on PREVIEW:",
         obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_STRING)
-    local define2 = obs.obs_properties_add_list(props, "define2", "Recall Define on Program:",
+    local define2 = obs.obs_properties_add_list(props, "define2", "Recall Define on PROGRAM:",
         obs.OBS_COMBO_TYPE_LIST, obs.OBS_COMBO_FORMAT_STRING)
     addList(define1)
     addList(define2)
@@ -198,9 +198,9 @@ function script_description ()
         href="https://spdx.org/licenses/GPL-3.0-only.html">GPL 3.0 license</a>
 
         <p>
-        <b>Recall a Crop Control define if the scene with the source of the filter
-        <i>Recall Crop Control Define</i> becomes visible in the PREVIEW (for
-        enabled studio mode only) and/or in the PROGRAM.</b>
+        Recall a Crop Control define if the scene with the source of the filter
+        <b>Recall Crop Control Define</b> becomes visible in the PREVIEW (for
+        enabled studio mode only) and/or in the PROGRAM.
         </p>
     ]]
 end
