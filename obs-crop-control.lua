@@ -156,6 +156,7 @@ info.activate = function (filter)
             local sceneSource      = obs.obs_frontend_get_current_scene()
             local sceneSourceName  = obs.obs_source_get_name(sceneSource)
             local filterSourceName = obs.obs_source_get_name(filter.parent)
+            obs.obs_source_release(sceneSource)
             obs.script_log(obs.LOG_INFO, string.format(
                 "hook: scene \"%s\" with filter source \"%s\" is in PROGRAM now -- reacting",
                 sceneSourceName, filterSourceName))
