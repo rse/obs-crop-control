@@ -25,7 +25,7 @@ const app = {
             cropW:             0,
             cropH:             0,
             duration:          1,
-            durations:         [ 1000, 4000, 7000 ],
+            durations:         [ 1000, 3000, 5000 ],
             fps:               30,
             previewImg:        "",
             previewShow:       false,
