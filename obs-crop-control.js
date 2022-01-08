@@ -29,8 +29,8 @@ const app = {
             previewImg:        "",
             previewShow:       false,
             previewEnabled:    false,
-            dispViewportW:     0, 
-            dispViewportH:     0, 
+            dispViewportW:     0,
+            dispViewportH:     0,
             dispScale:         0,
             dispCanvasW:       0,
             dispCanvasH:       0,
@@ -119,7 +119,7 @@ const app = {
         /*  determine display viewport size  */
         this.dispViewportW = window.innerWidth
         this.dispViewportH = window.innerHeight
-        this.dispScale     = (this.dispViewportW / this.canvasW) 
+        this.dispScale     = (this.dispViewportW / this.canvasW)
 
         /*  determine display canvas size  */
         this.dispCanvasW = this.dispViewportW
@@ -329,7 +329,7 @@ const app = {
             if (this.dispCropNextH > this.dispCanvasH)
                 this.dispCropNextH = this.dispCanvasH
             if (this.dispCropNextW < 100 * this.canvasR)
-                this.dispCropNextW = 100 * this.canvasR 
+                this.dispCropNextW = 100 * this.canvasR
             if (this.dispCropNextW > this.dispCanvasW)
                 this.dispCropNextW = this.dispCanvasW
 
