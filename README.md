@@ -144,7 +144,7 @@ The particular, original setup is the following:
   `&canvas=3840x2160` (size of original camera)<br/>
   `&preview=CAM2-Full:10` (how to retrieve the original camera view and its FPS)<br/>
   `&sources=CAM2-Zoom-FG,CAM2-Zoom-BG` (the sources of the *Crop/Pad* filters)<br/>
-  `&duration=3000,` (transition duration in milliseconds)<br/>
+  `&duration=1000,4000,7000` (transition durations in milliseconds)<br/>
   `&fps=30,` (transition smoothness in frames per second)<br/>
   `&define=0:0+0/3860x2160,` (pre-defined total 4K area)<br/>
   `1:0+540/1920x1080,` (pre-defined Full-HD area middle/left)<br/>

@@ -62,8 +62,6 @@ body {
     background-color: #0066bbd0;
 }
 .canvas .toolbar .button {
-    width: 6vw;
-    padding: 0 2vw 0 2vw;
     background-color: #444444d0;
     color: #ffffff;
     font-weight: bold;
@@ -71,9 +69,15 @@ body {
     font-size: 5vw;
     margin-left: 1vw;
     text-align: center;
+    padding: 0 3vw 0 3vw;
+    width: 3vw;
+}
+.canvas .toolbar .button.wide {
+    padding: 0 2vw 0 2vw;
+    width: 6vw;
 }
 .canvas .toolbar .button:hover {
-    background-color: #cc0000d0;
+    background-color: #666666d0;
 }
 
 .canvas .cropCurr {

@@ -24,7 +24,8 @@ const app = {
             cropY:             0,
             cropW:             0,
             cropH:             0,
-            duration:          1000,
+            duration:          1,
+            durations:         [ 1000, 4000, 7000 ],
             fps:               30,
             previewImg:        "",
             previewShow:       false,
@@ -73,8 +74,11 @@ const app = {
         this.title = params.title
         if (this.title === "")
             this.title = this.sources[0]
-        if (params.duration !== undefined)
-            this.duration = parseInt(params.duration)
+        if (params.duration !== undefined) {
+            this.durations = params.duration.split(/,/).map((duration) => parseInt(duration))
+            if (this.durations.length !== 3)
+                throw new Error("parameter \"duration\" needs exactly three comma-separated times")
+        }
         if (params.fps !== undefined)
             this.fps = parseInt(params.fps)
         if (params.debug !== undefined)
@@ -371,7 +375,7 @@ const app = {
         /*  progress from old to new position and/or size  */
         async progress (cropOld, cropNew) {
             this.progressing = true
-            await this.animate(this.duration, async (t) => {
+            await this.animate(this.durations[this.duration], async (t) => {
                 /*  determine new OBS Studio source crop position  */
                 const v = d3.easeCubicInOut(t)
                 this.cropX = cropOld.X + Math.round((cropNew.X - cropOld.X) * v)
