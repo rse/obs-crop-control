@@ -63,27 +63,25 @@ end
 info.create = function (_settings, source)
     --  create new filter context object
     local filter = {}
-    filter.source = source
-    filter.parent = nil
-    filter.width  = 0
-    filter.height = 0
-    filter.name = obs.obs_source_get_name(source)
-    filter.cfg = {
-        program = true,
-        control = "",
-        define1 = "none",
-        define2 = "none"
-    }
-    obs.script_log(obs.LOG_INFO, string.format("hook: create: filter name: \"%s\"", filter.name))
+    filter.source     = source
+    filter.sourceName = obs.obs_source_get_name(source)
+    filter.parent     = nil
+    filter.parentName = ""
+    filter.width      = 0
+    filter.height     = 0
+    filter.cfg        = { control = "", define1 = "none", define2 = "none" }
+    obs.script_log(obs.LOG_INFO, string.format("hook: create: filter name: \"%s\"", filter.sourceName))
     return filter
 end
 
 --  hook: destroy filter context
 info.destroy = function (filter)
     --  free resources only (notice: no more logging possible)
-    filter.source = nil
-    filter.name   = nil
-    filter.cfg    = nil
+    filter.source     = nil
+    filter.sourceName = ""
+    filter.parent     = nil
+    filter.parentName = ""
+    filter.cfg        = nil
 end
 
 --  hook: after loading settings
@@ -96,18 +94,17 @@ info.load = function (filter, settings)
     --  hook: activate (preview)
     obs.obs_frontend_add_event_callback(function (ev)
         if ev == obs.OBS_FRONTEND_EVENT_PREVIEW_SCENE_CHANGED then
-            if filter.parent ~= nil then
-                local sceneSource      = obs.obs_frontend_get_current_preview_scene()
-                local sceneSourceName  = obs.obs_source_get_name(sceneSource)
-                local filterSourceName = obs.obs_source_get_name(filter.parent)
-                local scene            = obs.obs_scene_from_source(sceneSource)
-                local sceneItem        = obs.obs_scene_find_source_recursive(scene, filterSourceName)
-                obs.obs_source_release(sceneSource)
-                if sceneItem then
-                    if filter.cfg.define1 ~= "none" then
+            if filter.cfg.define1 ~= "none" then
+                if filter.parent ~= nil then
+                    local sceneSource      = obs.obs_frontend_get_current_preview_scene()
+                    local scene            = obs.obs_scene_from_source(sceneSource)
+                    local sceneItem        = obs.obs_scene_find_source_recursive(scene, filter.parentName)
+                    obs.obs_source_release(sceneSource)
+                    if sceneItem then
+                        local sceneSourceName = obs.obs_source_get_name(sceneSource)
                         obs.script_log(obs.LOG_INFO, string.format(
                             "hook: scene \"%s\" with filter source \"%s\" is in PREVIEW now -- reacting",
-                            sceneSourceName, filterSourceName))
+                            sceneSourceName, filter.parentName))
                         recall(filter.cfg.control, filter.cfg.define1)
                     end
                 end
@@ -155,11 +152,10 @@ info.activate = function (filter)
         if filter.parent ~= nil then
             local sceneSource      = obs.obs_frontend_get_current_scene()
             local sceneSourceName  = obs.obs_source_get_name(sceneSource)
-            local filterSourceName = obs.obs_source_get_name(filter.parent)
             obs.obs_source_release(sceneSource)
             obs.script_log(obs.LOG_INFO, string.format(
                 "hook: scene \"%s\" with filter source \"%s\" is in PROGRAM now -- reacting",
-                sceneSourceName, filterSourceName))
+                sceneSourceName, filter.parentName))
             recall(filter.cfg.control, filter.cfg.define2)
         end
     end
@@ -168,7 +164,8 @@ end
 --  hook: render video
 info.video_render = function (filter, _effect)
     if filter.parent == nil then
-        filter.parent = obs.obs_filter_get_parent(filter.source)
+        filter.parent     = obs.obs_filter_get_parent(filter.source)
+        filter.parentName = obs.obs_source_get_name(filter.parent)
     end
     if filter.parent ~= nil then
         filter.width  = obs.obs_source_get_base_width(filter.parent)
