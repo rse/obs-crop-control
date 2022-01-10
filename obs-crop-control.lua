@@ -10,12 +10,12 @@
 local obs = obslua
 
 --  global Lua APIs
-local bit      = require("bit")
+local bit = require("bit")
 
 --  recall a define on control UI
 local function recall (control, define)
     obs.script_log(obs.LOG_INFO,
-        string.format("recalling crop define %d on control UI source \"%s\"", define, control))
+        string.format("recalling crop define #%s on control UI source \"%s\"", define, control))
 
     --  locate control UI source
     local controlSource = obs.obs_get_source_by_name(control)
