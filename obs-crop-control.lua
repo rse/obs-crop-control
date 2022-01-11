@@ -14,9 +14,6 @@ local bit = require("bit")
 
 --  recall a define on control UI
 local function recall (control, define)
-    obs.script_log(obs.LOG_INFO,
-        string.format("recalling crop define #%s on control UI source \"%s\"", define, control))
-
     --  locate control UI source
     local controlSource = obs.obs_get_source_by_name(control)
 	if controlSource == nil then
@@ -62,51 +59,70 @@ end
 --  hook: create filter context
 info.create = function (_settings, source)
     --  create new filter context object
-    local filter = {}
-    filter.source     = source
-    filter.sourceName = obs.obs_source_get_name(source)
-    filter.parent     = nil
-    filter.parentName = ""
-    filter.width      = 0
-    filter.height     = 0
-    filter.cfg        = { control = "", define1 = "none", define2 = "none" }
-    obs.script_log(obs.LOG_INFO, string.format("hook: create: filter name: \"%s\"", filter.sourceName))
-    return filter
+    local ctx = {}
+    ctx.filter = source
+    ctx.source = nil
+    ctx.scene  = nil
+    ctx.cfg    = { control = "", define1 = "none", define2 = "none" }
+    return ctx
 end
 
 --  hook: destroy filter context
-info.destroy = function (filter)
+info.destroy = function (ctx)
     --  free resources only (notice: no more logging possible)
-    filter.source     = nil
-    filter.sourceName = ""
-    filter.parent     = nil
-    filter.parentName = ""
-    filter.cfg        = nil
+    ctx.filter = nil
+    ctx.source = nil
+    ctx.scene  = nil
+    ctx.cfg    = nil
+end
+
+--  helper function for finding own scene
+local function findMyScene (ctx)
+    local myScene = nil
+    if ctx.source ~= nil then
+        local scenes = obs.obs_frontend_get_scenes()
+        for _, source in ipairs(scenes) do
+            local scene = obs.obs_scene_from_source(source)
+            local sourceName = obs.obs_source_get_name(ctx.source)
+            local sceneItem = obs.obs_scene_find_source_recursive(scene, sourceName)
+            if sceneItem then
+                myScene = source
+            end
+        end
+        obs.source_list_release(scenes)
+    end
+    return myScene
 end
 
 --  hook: after loading settings
-info.load = function (filter, settings)
+info.load = function (ctx, settings)
     --  take current parameters
-    filter.cfg.control = obs.obs_data_get_string(settings, "control")
-    filter.cfg.define1 = obs.obs_data_get_string(settings, "define1")
-    filter.cfg.define2 = obs.obs_data_get_string(settings, "define2")
+    ctx.cfg.control = obs.obs_data_get_string(settings, "control")
+    ctx.cfg.define1 = obs.obs_data_get_string(settings, "define1")
+    ctx.cfg.define2 = obs.obs_data_get_string(settings, "define2")
+
+    --  find own scene
+    ctx.scene = findMyScene(ctx)
 
     --  hook: activate (preview)
     obs.obs_frontend_add_event_callback(function (ev)
+        if ctx.scene == nil then
+            ctx.scene = findMyScene(ctx)
+        end
         if ev == obs.OBS_FRONTEND_EVENT_PREVIEW_SCENE_CHANGED then
-            if filter.cfg.define1 ~= "none" then
-                if filter.parent ~= nil then
-                    local sceneSource      = obs.obs_frontend_get_current_preview_scene()
-                    local scene            = obs.obs_scene_from_source(sceneSource)
-                    local sceneItem        = obs.obs_scene_find_source_recursive(scene, filter.parentName)
-                    obs.obs_source_release(sceneSource)
-                    if sceneItem then
-                        local sceneSourceName = obs.obs_source_get_name(sceneSource)
-                        obs.script_log(obs.LOG_INFO, string.format(
-                            "hook: scene \"%s\" with filter source \"%s\" is in PREVIEW now -- reacting",
-                            sceneSourceName, filter.parentName))
-                        recall(filter.cfg.control, filter.cfg.define1)
-                    end
+            if ctx.scene ~= nil and ctx.source ~= nil and ctx.cfg.define1 ~= "none" then
+                local previewScene     = obs.obs_frontend_get_current_preview_scene()
+                local previewSceneName = obs.obs_source_get_name(previewScene)
+                obs.obs_source_release(previewScene)
+                local sceneName = obs.obs_source_get_name(ctx.scene)
+                if previewSceneName == sceneName then
+                    local sourceName = obs.obs_source_get_name(ctx.source)
+                    local filterName = obs.obs_source_get_name(ctx.filter)
+                    obs.script_log(obs.LOG_INFO, string.format(
+                        "scene \"%s\" with source \"%s\" and filter \"%s\" went into PREVIEW: " ..
+                        "recalling define #%s on control source \"%s\"",
+                        sceneName, sourceName, filterName, ctx.cfg.define1, ctx.cfg.control))
+                    recall(ctx.cfg.control, ctx.cfg.define1)
                 end
             end
         end
@@ -114,7 +130,7 @@ info.load = function (filter, settings)
 end
 
 --  hook: provide filter properties (for dialog)
-info.get_properties = function (_filter)
+info.get_properties = function (_ctx)
     --  create properties
     local props = obs.obs_properties_create()
     obs.obs_properties_add_text(props, "control", "Source Name of Control UI:", obs.OBS_TEXT_DEFAULT)
@@ -140,46 +156,43 @@ info.get_properties = function (_filter)
 end
 
 --  hook: react on filter property update (during dialog)
-info.update = function (filter, settings)
-    filter.cfg.control = obs.obs_data_get_string(settings, "control")
-    filter.cfg.define1 = obs.obs_data_get_string(settings, "define1")
-    filter.cfg.define2 = obs.obs_data_get_string(settings, "define2")
+info.update = function (ctx, settings)
+    ctx.cfg.control = obs.obs_data_get_string(settings, "control")
+    ctx.cfg.define1 = obs.obs_data_get_string(settings, "define1")
+    ctx.cfg.define2 = obs.obs_data_get_string(settings, "define2")
 end
 
 --  hook: activate (program)
-info.activate = function (filter)
-    if filter.cfg.define2 ~= "none" then
-        if filter.parent ~= nil then
-            local sceneSource      = obs.obs_frontend_get_current_scene()
-            local sceneSourceName  = obs.obs_source_get_name(sceneSource)
-            obs.obs_source_release(sceneSource)
-            obs.script_log(obs.LOG_INFO, string.format(
-                "hook: scene \"%s\" with filter source \"%s\" is in PROGRAM now -- reacting",
-                sceneSourceName, filter.parentName))
-            recall(filter.cfg.control, filter.cfg.define2)
-        end
+info.activate = function (ctx)
+    if ctx.scene == nil then
+        ctx.scene = findMyScene(ctx)
+    end
+    if ctx.scene ~= nil and ctx.source ~= nil and ctx.cfg.define2 ~= "none" then
+        local sceneName  = obs.obs_source_get_name(ctx.scene)
+        local sourceName = obs.obs_source_get_name(ctx.source)
+        local filterName = obs.obs_source_get_name(ctx.filter)
+        obs.script_log(obs.LOG_INFO, string.format(
+            "scene \"%s\" with source \"%s\" and filter \"%s\" went into PROGRAM: " ..
+            "recalling define #%s on control source \"%s\"",
+            sceneName, sourceName, filterName, ctx.cfg.define2, ctx.cfg.control))
+        recall(ctx.cfg.control, ctx.cfg.define2)
     end
 end
 
 --  hook: render video
-info.video_render = function (filter, _effect)
-    if filter.parent == nil then
-        filter.parent     = obs.obs_filter_get_parent(filter.source)
-        filter.parentName = obs.obs_source_get_name(filter.parent)
+info.video_render = function (ctx, _effect)
+    if ctx.source == nil then
+        ctx.source = obs.obs_filter_get_parent(ctx.filter)
     end
-    if filter.parent ~= nil then
-        filter.width  = obs.obs_source_get_base_width(filter.parent)
-        filter.height = obs.obs_source_get_base_height(filter.parent)
-    end
-    obs.obs_source_skip_video_filter(filter.source)
+    obs.obs_source_skip_video_filter(ctx.filter)
 end
 
 --  hook: provide size
-info.get_width = function (filter)
-    return filter.width
+info.get_width = function (_ctx)
+    return 0
 end
-info.get_height = function (filter)
-    return filter.height
+info.get_height = function (_ctx)
+    return 0
 end
 
 --  register the filter
