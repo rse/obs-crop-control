@@ -80,13 +80,14 @@ end
 local function findMyScene (ctx)
     local myScene = nil
     if ctx.source ~= nil then
+        local sourceName = obs.obs_source_get_name(ctx.source)
         local scenes = obs.obs_frontend_get_scenes()
         for _, source in ipairs(scenes) do
             local scene = obs.obs_scene_from_source(source)
-            local sourceName = obs.obs_source_get_name(ctx.source)
             local sceneItem = obs.obs_scene_find_source_recursive(scene, sourceName)
             if sceneItem then
                 myScene = source
+                break
             end
         end
         obs.source_list_release(scenes)
