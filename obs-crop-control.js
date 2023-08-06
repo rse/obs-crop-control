@@ -88,7 +88,7 @@ const app = {
         if (params.define !== undefined) {
             this.defines = params.define.split(/,/)
             for (let i = 0; i < this.defines.length; i++) {
-                const m = this.defines[i].match(/^([1-9]):(\d+)\+(\d+)\/(\d+)x(\d+)$/)
+                const m = this.defines[i].match(/^([0-9]):(\d+)\+(\d+)\/(\d+)x(\d+)$/)
                 if (m === null)
                     throw new Error(`invalid define specification "${this.defines[i]}"`)
                 this.defines[i] = {
